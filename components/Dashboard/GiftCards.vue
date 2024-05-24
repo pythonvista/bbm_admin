@@ -1,0 +1,342 @@
+<template>
+  <div>
+    <UtilsSkeleton1 v-if="loader" :numbers="10"></UtilsSkeleton1>
+    <div v-else>
+      <div class="q-pa-md">
+        <div class="w-full flex justify-end items-center p-3">
+          <q-btn color="blue" @click="Add">Add Giftcard</q-btn>
+        </div>
+
+        <q-table
+          title="All Gift Cards"
+          :rows="rows"
+          :columns="columns"
+          row-key="name"
+          @row-click="SelectRow"
+          :filter="filter"
+        >
+          <template v-slot:top-right>
+            <q-input
+              borderless
+              dense
+              debounce="300"
+              v-model="filter"
+              placeholder="Search"
+            >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </template>
+        </q-table>
+      </div>
+    </div>
+    <q-dialog
+      v-model="viewNetwork"
+      persistent
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card class="w-[90%]">
+        <q-bar>
+          <q-space />
+
+          <q-btn dense flat icon="close" v-close-popup>
+            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
+        </q-bar>
+
+        <q-card-section class="q-pt-none">
+          <form method="POST" class="w-full">
+            <p class="text-lg w-full text-center my-5 font-bold">
+              {{ dform.name }}
+            </p>
+            <div class="space-y-4">
+              <div v-if="dform.docid">
+                <label
+                  for=""
+                  class="text-base font-medium text-gray-900 font-pj"
+                >
+                  Doc Id
+                </label>
+                <div class="mt-2.5">
+                  <input
+                    type="text"
+                    :readonly="dform.docid"
+                    name=""
+                    id=""
+                    v-model="dform.docid"
+                    placeholder="Doc Id"
+                    class="block w-full px-4 py-4 text-gray-900 placeholder-gray-600 bg-white border border-gray-400 rounded-mdfocus:border-gray-900 focus:ring-gray-900 caret-gray-900"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  for=""
+                  class="text-base font-medium text-gray-900 font-pj"
+                >
+                  Gift Card Name
+                </label>
+                <div class="mt-2.5">
+                  <input
+                    type="text"
+                    name=""
+                    id=""
+                    v-model="dform.name"
+                    placeholder="Name"
+                    class="block w-full px-4 py-4 text-gray-900 placeholder-gray-600 bg-white border border-gray-400 rounded-mdfocus:border-gray-900 focus:ring-gray-900 caret-gray-900"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="flex items-center justify-between">
+                  <label
+                    for=""
+                    class="text-base font-medium text-gray-900 font-pj"
+                  >
+                    Gift Card Category
+                  </label>
+                </div>
+                <div class="mt-2.5">
+                  <input
+                    type="text"
+                    name=""
+                    v-model="dform.category"
+                    id=""
+                    placeholder="Category"
+                    class="block w-full px-4 py-4 text-gray-900 placeholder-gray-600 bg-white border border-gray-400 rounded-mdfocus:border-gray-900 focus:ring-gray-900 caret-gray-900"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="flex items-center justify-between">
+                  <label
+                    for=""
+                    class="text-base font-medium text-gray-900 font-pj"
+                  >
+                    Gift Card Country Id
+                  </label>
+                </div>
+                <div class="mt-2.5">
+                  <input
+                    type="text"
+                    name=""
+                    v-model="dform.countryId"
+                    id=""
+                    placeholder="Country Id"
+                    class="block w-full px-4 py-4 text-gray-900 placeholder-gray-600 bg-white border border-gray-400 rounded-mdfocus:border-gray-900 focus:ring-gray-900 caret-gray-900"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="flex items-center justify-between">
+                  <label
+                    for=""
+                    class="text-base font-medium text-gray-900 font-pj"
+                  >
+                    Gift Card Img Link
+                  </label>
+                </div>
+                <div class="mt-2.5">
+                  <input
+                    type="text"
+                    name=""
+                    v-model="dform.img"
+                    id=""
+                    placeholder="Gift Img"
+                    class="block w-full px-4 py-4 text-gray-900 placeholder-gray-600 bg-white border border-gray-400 rounded-mdfocus:border-gray-900 focus:ring-gray-900 caret-gray-900"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="flex items-center justify-between">
+                  <label
+                    for=""
+                    class="text-base font-medium text-gray-900 font-pj"
+                  >
+                    Gift Card Rate
+                  </label>
+                </div>
+                <div class="mt-2.5">
+                  <input
+                    type="number"
+                    name=""
+                    v-model="dform.rate"
+                    id=""
+                    placeholder="Gift Rate"
+                    class="block w-full px-4 py-4 text-gray-900 placeholder-gray-600 bg-white border border-gray-400 rounded-mdfocus:border-gray-900 focus:ring-gray-900 caret-gray-900"
+                  />
+                </div>
+              </div>
+
+              <div class="q-pa-md">
+                <q-toggle
+                  @update:model-value="
+                    (value, evt) => (dform.active = value ? 1 : 0)
+                  "
+                  :label="dform.active ? 'Active' : 'Inactive'"
+                  v-model="currActive"
+                />
+              </div>
+              <q-btn
+                v-if="dform.docid"
+                @click="SaveChanges"
+                :loading="loading"
+                class="flex items-center justify-center w-full px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-gray-900 border border-transparent rounded-mdfocus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 font-pj hover:bg-gray-600"
+              >
+                Save Changes
+              </q-btn>
+              <q-btn
+                v-else
+                @click="AddGiftCard"
+                :loading="loading"
+                class="flex items-center justify-center w-full px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-gray-900 border border-transparent rounded-mdfocus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 font-pj hover:bg-gray-600"
+              >
+                Add Gift Card
+              </q-btn>
+            </div>
+          </form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+  </div>
+</template>
+
+<script>
+let nuxt;
+let store;
+let axios;
+export default {
+  data: () => ({
+    data: [],
+    currActive: false,
+    count: 0,
+    dform: {},
+    viewNetwork: false,
+    maximizedToggle: true,
+    filter: "",
+    loader: true,
+    loading: false,
+    spinner: false,
+  }),
+  methods: {
+    async GetNetworks() {
+      try {
+        let userCred = await TokenGetter();
+
+        const res = await axios.get(
+          `/api/admin/services?id=${userCred.uid}&service=GIFTCARDS`,
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: userCred.token,
+            },
+          }
+        );
+        let data = res.data;
+
+        this.data = data.Data.value;
+        this.count = data.Count.value;
+        this.loader = false;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    Add() {
+      this.dform = {};
+      this.currActive = false;
+      this.viewNetwork = true;
+    },
+    async AddGiftCard() {
+      try {
+        this.loading = true;
+        let userCred = await TokenGetter();
+        const res = await axios.post(
+          `/api/gift_cards/add?id=${userCred.uid}`,
+          this.dform,
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: userCred.token,
+            },
+          }
+        );
+        let data = res.data;
+        if (data.status) {
+          ShowSnack(data.msg, "positive");
+          this.dform = {};
+          this.viewNetwork = false;
+        } else {
+          throw data;
+        }
+        this.loading = false;
+      } catch (err) {
+        this.loading = false;
+        console.log(err);
+        ShowSnack("Error Adding Giftcard", "negative");
+      }
+    },
+    async SelectRow(evt, row, index) {
+      this.dform = row;
+      this.currActive = this.dform.active ? true : false;
+      this.viewNetwork = true;
+    },
+    async SaveChanges() {
+      try {
+        this.loading = true;
+        let userCred = await TokenGetter();
+        const res = await axios.post(
+          `/api/admin/services?id=${userCred.uid}&services=GIFTCARDS`,
+          this.dform,
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: userCred.token,
+            },
+          }
+        );
+        let data = res.data;
+
+        if (data.status) {
+          ShowSnack("Changes Saved!", "positive");
+          this.loading = false;
+        } else {
+          throw data;
+        }
+      } catch (err) {
+        console.log(err);
+        this.loading = false;
+        ShowSnack("Error Saving Changes", "negative");
+      }
+    },
+  },
+  computed: {
+    rows() {
+      return this.data.map((v) => ({ ...v }));
+    },
+    columns() {
+      let cols = [];
+      for (let key in this.data[0]) {
+        cols.push({
+          name: key,
+          required: true,
+          label: key,
+          field: key,
+          sortable: true,
+        });
+      }
+
+      return cols;
+    },
+  },
+  mounted() {
+    nuxt = useNuxtApp();
+    axios = nuxt.$UseAxios;
+    this.GetNetworks();
+  },
+};
+</script>
+
+<style>
+</style>
