@@ -40,7 +40,7 @@ export default {
   mounted() {
     nuxt = useNuxtApp();
     axios = nuxt.$UseAxios;
-    this.GetStats();
+    this.GetStats()
   },
 
   setup() {
@@ -64,31 +64,7 @@ export default {
   }),
   methods: {
     async GetStats() {
-      let userCred = await TokenGetter();
-      
-      const res = await axios.get(`/api/admin/stats?id=${userCred.uid}`, {
-        headers: {
-          Accept: "application/json",
-          Authorization: userCred.token,
-        },
-      });
-      let data = res.data;
-      this.totalDeposit = data.totalDeposit.value;
-      this.totalData = data.totalData.value;
-      this.totalBills = data.totalBills.value;
-      this.totalElectricity = data.totalElectricity.value;
-      this.totalEpin = data.totalEpin.value;
-      this.totalGift = data.totalGift.value;
-      this.totalCrypto = data.totalCrypto.value;
-      this.atcRequests = data.atcRequests.value;
-      this.cardRequest = data.cardRequest.value;
-      this.userCount = data.userCount.value
-      this.totalAirtime = data.totalAirtime.value
-      this.loader = false;
-      try {
-      } catch (err) {
-        console.log(err);
-      }
+      this.loader = false
     },
   },
   computed: {},

@@ -119,9 +119,8 @@
 </template>
 
 <script>
-import { onAuthStateChanged } from "firebase/auth";
 let nuxt;
-let auth;
+let axios
 let store;
 export default {
   data: () => ({
@@ -132,28 +131,31 @@ export default {
     OpenDrawer() {
       this.drawer = !this.drawer;
     },
+     async HandleAuth() {
+      try {
+        let status = await GetUser();
+        if (status) {
+          this.spinner = false;
+        } else {
+          this.$router.push({path: '/'})
+          throw status;
+        }
+      } catch (err) {
+        console.log(err)
+        this.spinner = false
+      }
+    },
   },
   mounted() {
     store = useAdminStore();
     nuxt = useNuxtApp();
-    auth = nuxt.$authfunc;
-    onAuthStateChanged(auth.UserState(), async (user) => {
-      this.spinner = true;
-      if (user) {
-        console.log(user);
-        store.SetUserCred(user.id, user.accessToken);
-        const data = await AuthHandler(user.uid, user.accessToken);
-        if (data) {
-          this.spinner = false;
-          this.$router.push({ path: "/dashboard" });
-        }
-      } else {
-        this.$router.push({ path: "/admin" });
-        this.spinner = false;
-      }
-    });
+    axios = nuxt.$UseAxios;
+    
+    
   },
-  created() {},
+  created() {
+    this.HandleAuth()
+  },
 };
 </script>
 
