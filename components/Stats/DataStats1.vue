@@ -29,7 +29,7 @@
             <p
               class="text-xs font-medium tracking-wider text-gray-500 uppercase"
             >
-              Gift Card Request
+              Friend Request
             </p>
             <div class="flex items-center justify-between mt-3">
               <p class="text-xl font-bold text-gray-900">{{ cardRequest}}</p>
@@ -48,7 +48,7 @@
             <p
               class="text-xs font-medium tracking-wider text-gray-500 uppercase"
             >
-              Airtime 2Cash Request
+              Active User
             </p>
             <div class="flex items-center justify-between mt-3">
               <p class="text-xl font-bold text-gray-900">{{atcRequests}}</p>

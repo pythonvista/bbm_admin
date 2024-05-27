@@ -35,7 +35,7 @@
 
         <div class="pb-10 pl-10 border-gray-200 xl:pb-0 xl:border-l">
           <p class="text-sm font-medium text-gray-600">
-            TotalSubcription
+            Total Subcription
           </p>
           <div class="inline-flex items-center mt-3">
             <p class="text-2xl font-bold text-gray-900">N{{ totalAirtime }}</p>
