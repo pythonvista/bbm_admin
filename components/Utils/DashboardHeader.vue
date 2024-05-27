@@ -178,7 +178,7 @@
                   Route == 'network' ? 'text-purple-600' : 'text-gray-600'
                 "
               >
-                Network Settings</span
+                All Subcription</span
               >
             </a>
 
@@ -204,7 +204,7 @@
               </svg>
               <span
                 :class="Route == 'data' ? 'text-purple-600' : 'text-gray-600'"
-                >Data Settings</span
+                >All Feeds</span
               >
             </a>
 
@@ -258,7 +258,7 @@
               <span
                 :class="Route == 'cables' ? 'text-purple-600' : 'text-gray-600'"
               >
-                Cables Settings</span
+                Users Settings</span
               >
             </a>
 
@@ -290,7 +290,7 @@
                   Route == 'giftcard' ? 'text-purple-600' : 'text-gray-600'
                 "
               >
-                Gift Card</span
+                Payment Settings</span
               >
             </a>
 
@@ -318,7 +318,7 @@
               <span
                 :class="Route == 'crypto' ? 'text-purple-600' : 'text-gray-600'"
               >
-                Crypto Settings</span
+                Transactions</span
               >
             </a>
 
@@ -377,7 +377,7 @@
                   Route == 'airtime2cash' ? 'text-purple-600' : 'text-gray-600'
                 "
               >
-                Airtime 2 Cash</span
+                Wallet Settings</span
               >
             </a>
              <a
