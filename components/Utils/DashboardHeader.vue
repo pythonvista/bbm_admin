@@ -89,7 +89,7 @@
       </div>
     </div>
 
-    <div class="xs:hidden py-3 bg-white border-b border-gray-200 lg:block">
+    <div v-if="userData?.id" class="xs:hidden py-3 bg-white  border-b border-gray-200 lg:block">
       <div class="px-4 mx-auto">
         <div class="flex items-center justify-between space-x-6">
           <div class="flex items-center gap-3">
@@ -451,25 +451,44 @@
 
 <script>
 let store;
-let auth;
+let axios
 let nuxt;
 export default {
   props: ["drawer"],
   created() {
     store = useAdminStore()
     nuxt = useNuxtApp();
-    auth = nuxt.$authfunc;
+    axios = nuxt.$UseAxios;
   },
   methods: {
     async LogOut() {
-      await auth.signout();
-      ShowSnack("Logout Successful!", "positive");
+       try {
+        this.loading = true;
+        const res = await axios.post("/admin/logout");
+        if (res.status == 200) {
+          const data = res.data;
+          ShowSnack(
+            data.message ? data.message : "Log Out Successful",
+            "positive"
+          );
+          store.SetActiveUser("", false);
+          store.SetAdminData({});
+          this.$router.go({ path: "/" });
+          console.log(data);
+        } else {
+          throw { msg: "Error Logging Out", ...res };
+        }
+      } catch (err) {
+        console.log(err);
+        this.loading = false;
+        ShowSnack(err.msg ? err.msg : "Error Logging Out", "negative");
+      }
     },
   },
   computed: {
-    //   userData() {
-    //     return store?.userData;
-    //   },
+      userData() {
+        return store?.adminData;
+      },
     Route() {
       if (this.$route.fullPath == "/dashboard") {
         return "dashboard";

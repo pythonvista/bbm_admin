@@ -7,6 +7,7 @@ export const ShowSnack = (message, type) => {
   Notify.create({
     message: message,
     type: type,
+    position: 'top-right'
   });
 };
 
