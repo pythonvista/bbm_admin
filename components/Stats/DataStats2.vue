@@ -6,7 +6,7 @@
       >
         <div class="pb-10 lg:pb-0">
           <p class="text-sm font-medium text-gray-600">
-            Total Gift Card Purchase
+            Total Register User
           </p>
           <div class="inline-flex items-center mt-3">
             <p class="text-2xl font-bold text-gray-900">N{{ totalGift }}</p>
@@ -35,7 +35,7 @@
 
         <div class="pb-10 pl-10 border-gray-200 xl:pb-0 xl:border-l">
           <p class="text-sm font-medium text-gray-600">
-            Total Airtime Purchase
+            TotalSubcription
           </p>
           <div class="inline-flex items-center mt-3">
             <p class="text-2xl font-bold text-gray-900">N{{ totalAirtime }}</p>
@@ -51,7 +51,7 @@
         <div
           class="py-10 border-t xl:border-l xl:py-0 lg:border-gray-200 xl:pl-10 xl:border-t-0"
         >
-          <p class="text-sm font-medium text-gray-600">Total Crypto Revenue</p>
+          <p class="text-sm font-medium text-gray-600">Total Revenue</p>
           <div class="inline-flex items-center mt-3">
             <p class="text-2xl font-bold text-gray-900">N {{ totalCrypto }}</p>
             <span
@@ -80,7 +80,7 @@
         <div
           class="py-10 pl-10 border-t border-gray-200 xl:py-0 xl:border-l xl:border-t-0"
         >
-          <p class="text-sm font-medium text-gray-600">Total Data Purchase</p>
+          <p class="text-sm font-medium text-gray-600">Total Inactive User</p>
           <div class="inline-flex items-center mt-3">
             <p class="text-2xl font-bold text-gray-900">{{ totalData }}</p>
             <span
@@ -109,7 +109,7 @@
         <div
           class="col-span-1 pt-10 border-t xl:col-span-1 xl:py-0 xl:border-l xl:border-t-0 xl:border-gray-200 xl:pl-10"
         >
-          <p class="text-sm font-medium text-gray-600">Total Cables Purchase</p>
+          <p class="text-sm font-medium text-gray-600">Total Male</p>
           <div class="inline-flex items-center mt-3">
             <p class="text-2xl font-bold text-gray-900">N{{ totalBills }}</p>
             <span
@@ -137,7 +137,7 @@
         <div
           class="col-span-1 pt-10 border-t xl:col-span-1 xl:py-0 xl:border-l xl:border-t-0 xl:border-gray-200 xl:pl-10"
         >
-          <p class="text-sm font-medium text-gray-600">Total Bill Purchase</p>
+          <p class="text-sm font-medium text-gray-600">Total Female</p>
           <div class="inline-flex items-center mt-3">
             <p class="text-2xl font-bold text-gray-900">N{{ totalElectricity }}</p>
             <span
